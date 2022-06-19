@@ -16,6 +16,7 @@ function App() {
         timezone: ""
     });
 
+
     const getGeoInfo = () => {
         axios
             .get("https://ipapi.co/json/")
@@ -46,7 +47,10 @@ function App() {
 
     return (
     <main>
-        <SearchBar setWeather={(arg) => setWeather(arg) }  />
+        {
+           geoLocation.city && <SearchBar setWeather={(arg) => setWeather(arg) } userCity={geoLocation.city}  />
+
+        }
         {weather.main
                 ? <WeatherDisplay weather={weather} />
                 : <div >

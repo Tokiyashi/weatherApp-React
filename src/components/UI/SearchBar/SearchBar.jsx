@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import cl from './SearchBar.module.css';
 
 
@@ -7,21 +7,31 @@ const api = {
     base: "https://api.openweathermap.org/data/2.5/"
 }
 
-const SearchBar = ({setWeather}) => {
+const SearchBar = ({setWeather, userCity}) => {
 
-    const [query, setQuery] = useState('');
+    const [query, setQuery] = useState(userCity);
 
 
     const search = evt => {
         if (evt.key === "Enter"){
-            fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
-                .then(res => res.json())
-                .then(result => {
-                    setQuery('');
-                    setWeather(result);
-                    console.log(result);
-                })
+            fetchData(query)
         }
+    }
+
+
+    useEffect(()=>{
+        fetchData(userCity);
+    }, [])
+
+
+    function fetchData(target){
+        fetch(`${api.base}weather?q=${target}&units=metric&APPID=${api.key}`)
+            .then(res => res.json())
+            .then(result => {
+                setQuery('');
+                setWeather(result);
+                console.log(result);
+            })
     }
 
     return (
