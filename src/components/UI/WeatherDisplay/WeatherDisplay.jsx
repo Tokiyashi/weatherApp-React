@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import cl from './WeatherDisplay.module.css'
 
 const WeatherDisplay = ({weather}) => {
@@ -15,8 +15,6 @@ const WeatherDisplay = ({weather}) => {
 
         return `${day} ${date} ${month} ${year}`
     }
-
-
 
     return (
         <div className={cl.weather}>
