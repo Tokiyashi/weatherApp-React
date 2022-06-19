@@ -8,21 +8,6 @@ body {
   font-family: 'montseratt', sans-serif;
 }
 
-.app{
-
-}
-
-.search-box .search-bar{
-  display: block;
-  width: 100%;
-  padding: 15px;
-  border-radius: 20px;
-  background-color: rgba(255,255,255,0.5);
-  outline: none;
-  border: 1px solid gray;
-  box-shadow: 0 5px rgba(0,0,0,0.4);
-  color: black;
-}
 
 main{
   min-height: 100vh;
@@ -32,30 +17,3 @@ main{
   flex-direction: column;
 }
 
-.location-box{
-  margin-top: 200px;
-  color: white;
-  font-size: 32px;
-  font-weight: 500;
-  text-align: center;
-  text-shadow: 3px 3px rgba(50, 50,70,0.5);
-}
-.weather-box{
-  color: white;
-  font-size: 32px;
-  font-weight: 500;
-  text-align: center;
-  text-shadow: 3px 3px rgba(50, 50,70,0.5);
-  background-color: rgba(255,255,255,0.4);
-  display: inline-block;
-  margin: 30px auto;
-  position: relative;
-  padding: 20px 80px;
-  border-radius: 20px;
-}
-.weather-wrapper{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
