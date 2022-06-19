@@ -7,7 +7,7 @@ const api = {
     base: "https://api.openweathermap.org/data/2.5/"
 }
 
-const SearchBar = ({setWeather, userCity}) => {
+const SearchBar = ({setWeather, userCity, setLoading}) => {
 
     const [query, setQuery] = useState(userCity);
 
@@ -25,13 +25,16 @@ const SearchBar = ({setWeather, userCity}) => {
 
 
     function fetchData(target){
+        setLoading(true);
         fetch(`${api.base}weather?q=${target}&units=metric&APPID=${api.key}`)
             .then(res => res.json())
             .then(result => {
                 setQuery('');
                 setWeather(result);
                 console.log(result);
+                setLoading(false);
             })
+
     }
 
     return (

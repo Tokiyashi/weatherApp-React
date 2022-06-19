@@ -35,7 +35,7 @@ function App() {
             .catch((error) => {
                 console.log(error);
             }).finally(() => {
-                setLoading(false);
+                    setLoading(false);
         });
     };
 
@@ -48,30 +48,31 @@ function App() {
 
     return (
     <main>
-        {
-            loading
-            ?<div className="loadingScreen">
-                <Loader/>
-            </div>
-
-            : <div>
+         <div>
                     {
-                        geoLocation.city && <SearchBar setWeather={(arg) => setWeather(arg) } userCity={geoLocation.city}  />
+                        geoLocation.city && <SearchBar setLoading={arg => setLoading(arg)} setWeather={(arg) => {
+                            setWeather(arg);
+                        } } userCity={geoLocation.city}  />
                     }
-                    {weather.main
-                        ? <WeatherDisplay weather={weather}  >  </WeatherDisplay>
-                        : <div className="notFound" >
-                            <p className="notFound__text shadowedText">
-                                City not found... &#128546;
-                            </p>
-                        </div>
+                    {
+                        loading
+                            ? <div className="loadingScreen">
+                                <Loader/>
+                            </div>
+                            :
+                            <div>
+                                {
+                                    weather.main
+                                        ? <WeatherDisplay weather={weather}> </WeatherDisplay>
+                                        : <div className="notFound">
+                                            <p className="notFound__text shadowedText">
+                                                City not found... &#128546;
+                                            </p>
+                                        </div>
+                                }
+                            </div>
                     }
                 </div>
-        }
-
-
-
-
     </main>
   );
 }
