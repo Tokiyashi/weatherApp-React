@@ -43,36 +43,33 @@ function App() {
         getGeoInfo();
     }, []);
 
-
-
-
     return (
     <main>
          <div>
+            {
+                geoLocation.city && <SearchBar setLoading={arg => setLoading(arg)} setWeather={(arg) => {
+                    setWeather(arg);
+                } } userCity={geoLocation.city}  />
+            }
+            {
+                loading
+                ? <div className="loadingScreen">
+                    <Loader/>
+                </div>
+                :
+                <div>
                     {
-                        geoLocation.city && <SearchBar setLoading={arg => setLoading(arg)} setWeather={(arg) => {
-                            setWeather(arg);
-                        } } userCity={geoLocation.city}  />
-                    }
-                    {
-                        loading
-                            ? <div className="loadingScreen">
-                                <Loader/>
-                            </div>
-                            :
-                            <div>
-                                {
-                                    weather.main
-                                        ? <WeatherDisplay weather={weather}> </WeatherDisplay>
-                                        : <div className="notFound">
-                                            <p className="notFound__text shadowedText">
-                                                City not found... &#128546;
-                                            </p>
-                                        </div>
-                                }
+                        weather.main
+                            ? <WeatherDisplay weather={weather}> </WeatherDisplay>
+                            : <div className="notFound">
+                                <p className="notFound__text shadowedText">
+                                    City not found... &#128546;
+                                </p>
                             </div>
                     }
                 </div>
+            }
+        </div>
     </main>
   );
 }
