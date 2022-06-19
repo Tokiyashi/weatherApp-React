@@ -2,11 +2,10 @@ import React, {useEffect, useState} from 'react';
 import WeatherDisplay from "./components/UI/WeatherDisplay/WeatherDisplay";
 import SearchBar from "./components/UI/SearchBar/SearchBar";
 import axios from "axios";
-
-
+import Loader from './components/UI/Loader/Loader'
 
 function App() {
-
+    const [loading, setLoading] = useState(true)
     const [weather, setWeather] = useState({});
     const [geoLocation, setGeoLocation] = useState({
         ip: "",
@@ -35,7 +34,9 @@ function App() {
             })
             .catch((error) => {
                 console.log(error);
-            });
+            }).finally(() => {
+                setLoading(false);
+        });
     };
 
     useEffect(() => {
@@ -48,15 +49,29 @@ function App() {
     return (
     <main>
         {
-           geoLocation.city && <SearchBar setWeather={(arg) => setWeather(arg) } userCity={geoLocation.city}  />
+            loading
+            ?<div className="loadingScreen">
+                <Loader/>
+            </div>
 
-        }
-        {weather.main
-                ? <WeatherDisplay weather={weather} />
-                : <div >
-                вбей нормальный город мудак
+            : <div>
+                    {
+                        geoLocation.city && <SearchBar setWeather={(arg) => setWeather(arg) } userCity={geoLocation.city}  />
+                    }
+                    {weather.main
+                        ? <WeatherDisplay weather={weather}  >  </WeatherDisplay>
+                        : <div className="notFound" >
+                            <p className="notFound__text shadowedText">
+                                City not found... &#128546;
+                            </p>
+                        </div>
+                    }
                 </div>
         }
+
+
+
+
     </main>
   );
 }

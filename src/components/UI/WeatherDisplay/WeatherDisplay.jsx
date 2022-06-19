@@ -26,7 +26,7 @@ const WeatherDisplay = ({weather}) => {
             </div>
             <div className={cl.weather__info}>
                 <div className={cl.weather__info__temperature}>
-                    {Math.round(weather.main.temp)}
+                    {Math.round(weather.main.temp)}°С
                 </div>
                 <div className="weather">
                     {weather.weather[0].main} <br/>
