@@ -80,7 +80,7 @@ function App() {
                 :
                 <div>
                 {
-                weather[0].temp
+                weather[0]
                     ? <WeatherDisplay weather={weather}> </WeatherDisplay>
                     : <div className="notFound">
                         <p className="notFound__text shadowedText">
