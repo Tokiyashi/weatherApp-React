@@ -11,7 +11,6 @@ const SearchBar = ({setWeather, userCity, setLoading}) => {
 
     const [query, setQuery] = useState(userCity);
 
-
     const search = evt => {
         if (evt.key === "Enter"){
             fetchData(query)
@@ -24,9 +23,10 @@ const SearchBar = ({setWeather, userCity, setLoading}) => {
     }, [])
 
 
+
     function fetchData(target){
         setLoading(true);
-        fetch(`${api.base}weather?q=${target}&units=metric&APPID=${api.key}`)
+        fetch(`${api.base}forecast?q=${target}&units=metric&APPID=${api.key}`)
             .then(res => res.json())
             .then(result => {
                 setQuery('');

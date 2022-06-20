@@ -6,7 +6,7 @@ import Loader from './components/UI/Loader/Loader'
 
 function App() {
     const [loading, setLoading] = useState(true)
-    const [weather, setWeather] = useState({});
+    const [weather, setWeather] = useState([]);
     const [geoLocation, setGeoLocation] = useState({
         ip: "",
         countryName: "",
@@ -43,12 +43,33 @@ function App() {
         getGeoInfo();
     }, []);
 
+    function makeForecast(response){
+        const addWeatherWithIndex = (index) => {
+            return {
+                name: response.city.name,
+                country: response.city.country,
+                temp: response.list[index].main.temp,
+                main: response.list[index].weather[0].main,
+                description: response.list[index].weather[0].description,
+                icon: response.list[index].weather[0].icon
+            }
+        }
+        setWeather(
+            [addWeatherWithIndex(0),
+                addWeatherWithIndex(7),
+                addWeatherWithIndex(15),
+                addWeatherWithIndex(22)
+            ]
+        );
+        console.log(weather);
+    }
+
     return (
     <main>
          <div>
             {
                 geoLocation.city && <SearchBar setLoading={arg => setLoading(arg)} setWeather={(arg) => {
-                    setWeather(arg);
+                    makeForecast(arg);
                 } } userCity={geoLocation.city}  />
             }
             {
@@ -58,15 +79,16 @@ function App() {
                 </div>
                 :
                 <div>
-                    {
-                        weather.main
-                            ? <WeatherDisplay weather={weather}> </WeatherDisplay>
-                            : <div className="notFound">
-                                <p className="notFound__text shadowedText">
-                                    City not found... &#128546;
-                                </p>
-                            </div>
-                    }
+                {
+                weather[0].temp
+                    ? <WeatherDisplay weather={weather}> </WeatherDisplay>
+                    : <div className="notFound">
+                        <p className="notFound__text shadowedText">
+                            City not found... &#128546;
+                        </p>
+                    </div>
+                }
+
                 </div>
             }
         </div>

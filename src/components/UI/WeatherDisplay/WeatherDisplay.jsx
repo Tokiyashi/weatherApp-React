@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import cl from './WeatherDisplay.module.css'
 
 const WeatherDisplay = ({weather}) => {
@@ -16,22 +16,34 @@ const WeatherDisplay = ({weather}) => {
         return `${day} ${date} ${month} ${year}`
     }
 
+    // useMemo() on change page
+
     return (
         <div className={cl.weather}>
+            <img
+                className={cl.weather_icon}
+                src={`http://openweathermap.org/img/wn/${weather[0].icon}@2x.png`}
+                alt="icon"
+                width="100"
+            />
             <div className={cl.weather__location}>
-                    {weather.name},  {weather.sys.country}
+                    {weather[0].name},  {weather[0].country}
+
             </div>
             <div className={cl.weather__time}>
                 {dateBuilder(new Date())}
             </div>
             <div className={cl.weather__info}>
                 <div className={cl.weather__info__temperature}>
-                    {Math.round(weather.main.temp)}°С
+                    {Math.round(weather[0].temp)}°С
                 </div>
                 <div className="weather">
-                    {weather.weather[0].main} <br/>
-                    {weather.weather[0].description}
+                    {weather[0].main} <br/>
+                    {weather[0].description}
                 </div>
+            </div>
+            <div>
+                 <button> yesterday </button> <button> tomorrow </button>
             </div>
         </div>
     );
