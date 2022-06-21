@@ -56,9 +56,9 @@ function App() {
         }
         setWeather(
             [addWeatherWithIndex(0),
-                addWeatherWithIndex(7),
-                addWeatherWithIndex(15),
-                addWeatherWithIndex(22)
+                addWeatherWithIndex(8),
+                addWeatherWithIndex(16),
+                addWeatherWithIndex(24)
             ]
         );
         console.log(weather);

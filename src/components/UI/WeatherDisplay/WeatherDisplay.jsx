@@ -11,19 +11,28 @@ const WeatherDisplay = ({weather}) => {
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
         const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-        let day = days[d.getDay()];
-        let date = d.getDate();
+        let day = days[d.getDay()+dayNum];
+        let date = d.getDate()+dayNum;
         let month = months[d.getMonth()];
         let year = d.getFullYear();
 
         return `${day} ${date} ${month} ${year}`
     }
 
+    function changeDate(day){
+        if (dayNum + day > -1 && dayNum + day < 3){
+            setDayNum(dayNum + day);
+            dateBuilder(new Date(), day)
+        }
+    }
+
     return (
         <div className={cl.weatherWrapper}>
             <img className={[cl.filterBlue, cl.leftArrow].join(' ')}
-                src={arrow}
-                width="50px" onClick={()=>{setDayNum(dayNum-1)}}
+                 src={arrow}
+                 width="50px" onClick={()=>{changeDate(-1)}}
+                 draggable="false"
+                 alt="leftArrow"
             />
             <div className={cl.weather}>
                 <img
@@ -37,11 +46,11 @@ const WeatherDisplay = ({weather}) => {
 
                 </div>
                 <div className={cl.weather__time}>
-                    {dateBuilder(new Date())}
+                    {dateBuilder(new Date(), 0)}
                 </div>
                 <div className={cl.weather__info}>
                     <div className={cl.weather__info__temperature}>
-                        {Math.round(weather[0].temp)}°С
+                        {Math.round(weather[dayNum].temp)}°С
                     </div>
                     <div className="weather">
                         {weather[dayNum].main} <br/>
@@ -52,7 +61,9 @@ const WeatherDisplay = ({weather}) => {
             <img className={[cl.filterBlue, cl.rightArrow].join(' ')}
                  src={arrow}
                  width="50px"
-                 onClick={()=>{setDayNum(dayNum+1)}}
+                 onClick={()=>{changeDate(1)}}
+                 draggable="false"
+                 alt="rightArrow"
             />
         </div>
 
