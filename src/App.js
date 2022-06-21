@@ -34,9 +34,9 @@ function App() {
                 console.log(geoLocation);
             })
             .catch((error) => {
-                console.log(error);
+                setError(true)
             }).finally(() => {
-                    setLoading(false);
+                setLoading(false);
         });
     };
 
@@ -86,7 +86,8 @@ function App() {
             error
             ? <Error/>
             : <div>
-                    { weather.length && !loading &&
+                    {
+                        weather.length && !loading &&
                         <WeatherDisplay weather={weather}> </WeatherDisplay>
                     }
             </div>
