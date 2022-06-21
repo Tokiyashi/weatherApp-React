@@ -7,7 +7,7 @@ const api = {
     base: "https://api.openweathermap.org/data/2.5/"
 }
 
-const SearchBar = ({setWeather, userCity, setLoading}) => {
+const SearchBar = ({setWeather, userCity, setLoading, setError}) => {
 
     const [query, setQuery] = useState(userCity);
 
@@ -31,9 +31,14 @@ const SearchBar = ({setWeather, userCity, setLoading}) => {
             .then(result => {
                 setQuery('');
                 setWeather(result);
-                console.log(result);
-                setLoading(false);
+                setError(false);
             })
+            .catch(e => {
+                setError(true);
+                setLoading(false);
+            }).finally(()=>{
+
+            });
 
     }
 

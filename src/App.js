@@ -3,10 +3,12 @@ import WeatherDisplay from "./components/UI/WeatherDisplay/WeatherDisplay";
 import SearchBar from "./components/UI/SearchBar/SearchBar";
 import axios from "axios";
 import Loader from './components/UI/Loader/Loader'
+import Error from "./components/UI/ErrorScreen/Error";
 
 function App() {
     const [loading, setLoading] = useState(true)
     const [weather, setWeather] = useState([]);
+    const [error, setError] = useState(false);
     const [geoLocation, setGeoLocation] = useState({
         ip: "",
         countryName: "",
@@ -30,7 +32,6 @@ function App() {
                     timezone: data.timezone
                 });
                 console.log(geoLocation);
-
             })
             .catch((error) => {
                 console.log(error);
@@ -61,37 +62,35 @@ function App() {
                 addWeatherWithIndex(24)
             ]
         );
-        console.log(weather);
+        setLoading(false)
     }
 
     return (
     <main>
-         <div>
-            {
-                geoLocation.city && <SearchBar setLoading={arg => setLoading(arg)} setWeather={(arg) => {
-                    makeForecast(arg);
-                } } userCity={geoLocation.city}  />
-            }
-            {
-                loading
-                ? <div className="loadingScreen">
-                    <Loader/>
-                </div>
-                :
-                <div>
-                {
-                weather[0]
-                    ? <WeatherDisplay weather={weather}> </WeatherDisplay>
-                    : <div className="notFound">
-                        <p className="notFound__text shadowedText">
-                            City not found... &#128546;
-                        </p>
-                    </div>
-                }
-
-                </div>
-            }
-        </div>
+        {
+            geoLocation.city &&
+            <SearchBar
+                setLoading={arg => setLoading(arg)}
+                setError={(arg)=> setError(arg)}
+                setWeather={(arg) => {makeForecast(arg);}}
+                userCity={geoLocation.city}
+            />
+        }
+        {
+            loading &&
+            <div className="loadingScreen">
+                <Loader/>
+            </div>
+        }
+        {
+            error
+            ? <Error/>
+            : <div>
+                    { weather.length && !loading &&
+                        <WeatherDisplay weather={weather}> </WeatherDisplay>
+                    }
+            </div>
+        }
     </main>
   );
 }
