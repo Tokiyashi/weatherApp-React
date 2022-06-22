@@ -37,7 +37,7 @@ const WeatherDisplay = ({weather}) => {
             <div className={cl.weather}>
                 <img
                     className={cl.weather_icon}
-                    src={`http://openweathermap.org/img/wn/${weather[0].icon}@2x.png`}
+                    src={`http://openweathermap.org/img/wn/${weather[dayNum].icon}@2x.png`}
                     alt="icon"
                     width="100"
                 />

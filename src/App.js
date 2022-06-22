@@ -1,98 +1,62 @@
 import React, {useEffect, useState} from 'react';
 import WeatherDisplay from "./components/UI/WeatherDisplay/WeatherDisplay";
 import SearchBar from "./components/UI/SearchBar/SearchBar";
-import axios from "axios";
 import Loader from './components/UI/Loader/Loader'
 import Error from "./components/UI/ErrorScreen/Error";
+import UserGeoController from "./components/UserGeoController";
+import {useFetching} from "./components/hooks/useFetching";
+import {makeForecastByCity} from "./components/ForecastController";
+
 
 function App() {
-    const [loading, setLoading] = useState(true)
+
     const [weather, setWeather] = useState([]);
-    const [error, setError] = useState(false);
-    const [geoLocation, setGeoLocation] = useState({
-        ip: "",
-        countryName: "",
-        countryCode: "",
-        city: "",
-        timezone: ""
+    const [geoLocation, setGeoLocation] = useState();
+    const [getUserGeo, loading, error] = useFetching( async ()=> {
+        const userGeo = await UserGeoController.getUserGeo();
+        setGeoLocation(userGeo.city);
     });
+    const [city, setCity] = useState();
 
+    const [makeForecast, forecastLoading, forecastError] = useFetching( async (city)=>
+    {
+        let forecast = await makeForecastByCity(city);
+        setWeather(forecast);
+    }, city);
 
-    const getGeoInfo = () => {
-        axios
-            .get("https://ipapi.co/json/")
-            .then((response) => {
-                let data = response.data;
-                setGeoLocation({
-                    ...geoLocation,
-                    ip: data.ip,
-                    countryName: data.country_name,
-                    countryCode: data.country_calling_code,
-                    city: data.city,
-                    timezone: data.timezone
-                });
-                console.log(geoLocation);
-            })
-            .catch((error) => {
-                setError(true)
-            }).finally(() => {
-                setLoading(false);
-        });
-    };
-
-    useEffect(() => {
-        getGeoInfo();
+    useEffect( ()=>{
+        getUserGeo();
     }, []);
 
-    function makeForecast(response){
-        const addWeatherWithIndex = (index) => {
-            return {
-                name: response.city.name,
-                country: response.city.country,
-                temp: response.list[index].main.temp,
-                main: response.list[index].weather[0].main,
-                description: response.list[index].weather[0].description,
-                icon: response.list[index].weather[0].icon
-            }
-        }
-        setWeather(
-            [addWeatherWithIndex(0),
-                addWeatherWithIndex(8),
-                addWeatherWithIndex(16),
-                addWeatherWithIndex(24)
-            ]
-        );
-        setLoading(false)
-    }
-
     return (
-    <main>
-        {
-            geoLocation.city &&
-            <SearchBar
-                setLoading={arg => setLoading(arg)}
-                setError={(arg)=> setError(arg)}
-                setWeather={(arg) => {makeForecast(arg);}}
-                userCity={geoLocation.city}
-            />
-        }
-        {
-            loading &&
-            <div className="loadingScreen">
-                <Loader/>
-            </div>
-        }
-        {
-            error
-            ? <Error/>
-            : <div>
+        <main>
+            {
+                geoLocation &&
+                <SearchBar
+                    fetchData={ async (arg) => {
+                        setCity(arg)
+                       await makeForecast(arg);
+                    }}
+                    userCity={geoLocation}
+                />
+            }
+            {
+                (forecastLoading ||loading) &&
+                <div className="loadingScreen">
+                    <Loader/>
+                </div>
+            }
+            {
+               error || forecastError
+                ? <Error/>
+                : <div>
                     {
-                        weather.length && !loading &&
+                        (weather.length>0) && !loading && !forecastLoading &&
                         <WeatherDisplay weather={weather}> </WeatherDisplay>
                     }
-            </div>
-        }
-    </main>
+                </div>
+            }
+        </main>
   );
 }
 
