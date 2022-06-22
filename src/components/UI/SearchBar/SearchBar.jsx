@@ -3,7 +3,7 @@ import cl from './SearchBar.module.css';
 
 const SearchBar = ({ userCity, fetchData}) => {
 
-    const [query, setQuery] = useState(userCity);
+    const [query, setQuery] = useState();
 
     const search = evt => {
         if (evt.key === "Enter"){
