@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/weatherApp-React/static/css/main.97c8ffe7.css",
+    "main.js": "/weatherApp-React/static/js/main.325c6fcf.js",
+    "static/media/left-arrow-svgrepo-com.svg": "/weatherApp-React/static/media/left-arrow-svgrepo-com.3221a47258a5114b4d7e3b138ebb5b8f.svg",
+    "index.html": "/weatherApp-React/index.html",
+    "main.97c8ffe7.css.map": "/weatherApp-React/static/css/main.97c8ffe7.css.map",
+    "main.325c6fcf.js.map": "/weatherApp-React/static/js/main.325c6fcf.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.97c8ffe7.css",
+    "static/js/main.325c6fcf.js"
+  ]
+}
